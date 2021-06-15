@@ -1,56 +1,58 @@
 import React from 'react';
 import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { Counter } from './components/counter/Counter';
+import '@fontsource/roboto';
+import Header from './components/header/header';
+import { Home } from '@material-ui/icons';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import { ListUser } from './views/admin/listUser';
+import { USerListMenu } from './views/customer/listMenu';
+import Login from './views/admin/login';
+import { Dashboard } from './views/customer/dashboard';
+import { Profile } from './views/admin/profile';
+import GetAddress from './views/customer/getAddress';
+import CreateUser from './views/admin/createUser';
+import CreateMenu from './views/admin/createMenu';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <Router>
+        <Header />
+        <Switch>
+          <Route path="/adminLogin">
+            <Login />
+          </Route>
+          <Route path="/createMenu">
+            <CreateMenu />
+          </Route>
+          <Route path="/listUser">
+            <ListUser />
+          </Route>
+          <Route path="/address">
+            <GetAddress />
+          </Route>
+          <Route path="/userMenu">
+            <USerListMenu />
+          </Route>
+          <Route path="/counter">
+            <Counter />
+          </Route>
+          <Route path="/createUser">
+            <CreateUser />
+          </Route>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/">
+            <Dashboard />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

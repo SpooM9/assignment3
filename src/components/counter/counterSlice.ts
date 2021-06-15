@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../app/store';
+import { RootState, AppThunk } from '../../store/store';
 import { fetchCount } from './counterAPI';
 
 export interface CounterState {
@@ -55,7 +55,7 @@ export const counterSlice = createSlice({
       })
       .addCase(incrementAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.value += action.payload;
+        state.value = state.value + action.payload;
       });
   },
 });
