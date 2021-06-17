@@ -5,6 +5,7 @@ import {
   makeStyles,
   useTheme,
 } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -14,6 +15,7 @@ import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
 import { AuthContext, AuthStatus } from "../../contexts/authContext";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,10 +49,19 @@ const useStyles = makeStyles((theme: Theme) =>
 export function USerListMenu() {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
   const authContext = useContext(AuthContext);
   const [list, setList] = useState([]);
+  const handleClick = (id: any) => {
+    if (authContext.authStatus === AuthStatus.SignedIn) {
+      history.push(`editMenu/${id}`);
+    } else {
+    }
+  };
   useEffect(() => {
-    fetch("http://urmenu-env.eba-9cbkqy3k.ap-southeast-2.elasticbeanstalk.com/public/menus")
+    fetch(
+      "http://urmenu-env.eba-9cbkqy3k.ap-southeast-2.elasticbeanstalk.com/public/menus"
+    )
       .then((response) => response.json())
       .then((data) => {
         if (data.users) {
@@ -70,11 +81,11 @@ export function USerListMenu() {
               <Typography variant="subtitle1" color="textSecondary">
                 {item.subtitle}
               </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
+              <Button onClick={() => handleClick(item.id)}>
                 {authContext.authStatus === AuthStatus.SignedIn
                   ? "edit"
                   : "add to cart"}
-              </Typography>
+              </Button>
             </CardContent>
           </div>
           <CardMedia

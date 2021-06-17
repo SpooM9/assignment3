@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link } from "react-router-dom";
+import Autocomplete from "react-google-autocomplete";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,7 +44,7 @@ export default function GetAddress() {
         <Typography component="h1" variant="h5">
           Delivery address
         </Typography>
-        <TextField
+        {/* <TextField
           variant="outlined"
           margin="normal"
           required
@@ -53,6 +54,10 @@ export default function GetAddress() {
           name="address"
           autoComplete="address"
           autoFocus
+        /> */}
+        <Autocomplete
+          apiKey={'AIzaSyCVFCeo1vom1qI0RObQ6yejck9GWq8SHfY'}
+          onPlaceSelected={(place) => console.log(place)}
         />
         <Button
           type="submit"

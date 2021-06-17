@@ -11,7 +11,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../store/hooks";
 import { setLoginDetails, setIsSuper } from "../../store/adminStore";
 import ImageUploading from "react-images-uploading";
@@ -42,11 +42,11 @@ export default function CreateMenu() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
-
+  const { id } = useParams<{id: string}>();
+  console.log(id)
   const onChange = (imageList: any, addUpdateIndex: any) => {
     console.log(imageList, addUpdateIndex);
     setImages(imageList);
@@ -66,20 +66,44 @@ export default function CreateMenu() {
       secretAccessKey: SECRET_ACCESS_KEY,
     };
     const result = await uploadFile(images[0]["file"], config);
-    fetch("http://urmenu-env.eba-9cbkqy3k.ap-southeast-2.elasticbeanstalk.com/public/menus", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: title,
-        subtitle: subTitle,
-        imageUrl: result.location,
-      }),
-    })
-    setTimeout(() => {
-      history.push("/userMenu");      
-    }, 500);
+    if (id) {
+      fetch(
+        "http://urmenu-env.eba-9cbkqy3k.ap-southeast-2.elasticbeanstalk.com/public/menus",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: id,
+            title: title,
+            subtitle: subTitle,
+            imageUrl: result.location,
+          }),
+        }
+      );
+      setTimeout(() => {
+        history.push("/userMenu");
+      }, 500);
+    } else {
+      fetch(
+        "http://urmenu-env.eba-9cbkqy3k.ap-southeast-2.elasticbeanstalk.com/public/menus",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: title,
+            subtitle: subTitle,
+            imageUrl: result.location,
+          }),
+        }
+      );
+      setTimeout(() => {
+        history.push("/userMenu");
+      }, 500);
+    }
   };
 
   return (

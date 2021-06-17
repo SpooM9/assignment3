@@ -43,7 +43,8 @@ export default function Header() {
             setisadmin(attributes.Value === '1' ? true : false);
         }
       });
-    });
+    }).catch(()=>{console.log("err")});
+
     const handelLogout = () => {
         handleClose()
         authAWS.signOut()
@@ -62,6 +63,40 @@ export default function Header() {
         <AppBar position="static">
             <Toolbar>
                 <Typography variant="h6" className={classes.title}> UrMenu </Typography>
+                {authAWS.authStatus === AuthStatus.SignedOut && (
+                    <div>
+                        <IconButton
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleMenu}
+                            color="inherit"
+                        >
+                            <AccountCircle />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={open}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleClose}>
+                                <Link to={'/adminLogin'} style={{ color: 'black', textDecoration: 'none' }}>
+                                    Login
+                                </Link>
+                            </MenuItem>
+                        </Menu>
+                    </div>
+                )}
                 {authAWS.authStatus === AuthStatus.SignedIn && (
                     <div>
                         <IconButton
@@ -102,6 +137,11 @@ export default function Header() {
                                 <MenuItem onClick={handleClose}>
                                     <Link to={'/userMenu'} style={{ color: 'black', textDecoration: 'none' }}>
                                         List Items
+                                    </Link>
+                                </MenuItem>
+                                <MenuItem onClick={handleClose}>
+                                    <Link to={'/createUser'} style={{ color: 'black', textDecoration: 'none' }}>
+                                        create user
                                     </Link>
                                 </MenuItem>
                             </>}

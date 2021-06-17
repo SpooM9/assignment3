@@ -37,9 +37,6 @@ const NotSignedInRoutes: React.FunctionComponent = () => (
       <Route path="/userMenu">
         <USerListMenu />
       </Route>
-      <Route path="/createUser">
-        <CreateUser />
-      </Route>
       <Route path="/counter">
         <Counter />
       </Route>
@@ -55,6 +52,9 @@ const SignedInRoutes: React.FunctionComponent = () => (
     <Header />
     <Switch>
       <Route path="/createMenu">
+        <CreateMenu />
+      </Route>
+      <Route path="/editMenu/:id">
         <CreateMenu />
       </Route>
       <Route path="/listUser">
